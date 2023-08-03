@@ -25,14 +25,27 @@ it or regenerate `configure' using a newer version of `autoconf'.
 
 The simplest way to compile this package is:
 
-  1. `cd' to the directory containing the package's source code and type
-     `./configure' to configure the package for your system.  If you're
+  1. `cd' to the directory containing the package's source code and:
+  a) using `configure':
+     type `./configure' to configure the package for your system.  If you're
      using `csh' on an old version of System V, you might need to type
      `sh ./configure' instead to prevent `csh' from trying to execute
      `configure' itself.
 
      Running `configure' takes awhile.  While running, it prints some
      messages telling which features it is checking for.
+
+  b) using CMAKE type:
+     
+     mkdir build
+     cd build
+     cmake ..
+
+     cmake creates Makefile in build directory (project files, if you 
+     use Microsoft Visual Studio). If your compiler does not have getopt
+     function (it is used in tests only) you can install getopt package
+     on Windows using your favorite package manager, f.e:
+     vcpkg install getopt
 
   2. Type `make' to compile the package.
 
