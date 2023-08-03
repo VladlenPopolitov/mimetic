@@ -9,7 +9,7 @@ set(MIMETIC_VERSION
     ${MIMETIC_MAJOR_VERSION}.${MIMETIC_MINOR_VERSION}.${MIMETIC_PATCH_VERSION})
 set(MIMETIC_VERSION_STRING "${MIMETIC_VERSION}")
 
-set (CMAKE_CXX_STANDARD 11)
+#set (CMAKE_CXX_STANDARD 11)
 
 string(COMPARE EQUAL "${CMAKE_CURRENT_SOURCE_DIR}" "${CMAKE_SOURCE_DIR}" MIMETIC_STANDALONE)
 
@@ -154,7 +154,7 @@ if (MIMETIC_INSTALL)
 
     # Only generate this target if no higher-level project already has
     if (NOT TARGET uninstall)
-        configure_file(CMAKE/cmake_uninstall.cmake.in
+        configure_file(CMake/cmake_uninstall.cmake.in
                        cmake_uninstall.cmake IMMEDIATE @ONLY)
         add_custom_target(uninstall
                           "${CMAKE_COMMAND}" -P
