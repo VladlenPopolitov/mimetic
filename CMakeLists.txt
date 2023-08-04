@@ -13,10 +13,10 @@ set (CMAKE_CXX_STANDARD 11)
 
 string(COMPARE EQUAL "${CMAKE_CURRENT_SOURCE_DIR}" "${CMAKE_SOURCE_DIR}" MIMETIC_STANDALONE)
 
-option(BUILD_SHARED_LIBS "Build shared libraries" ON)
+option(BUILD_SHARED_LIBS "Build shared libraries" OFF)
 option(MIMETIC_BUILD_EXAMPLES "Build the MIMETIC example programs" ${MIMETIC_STANDALONE})
 option(MIMETIC_BUILD_TESTS "Build the MIMETIC test programs" ${MIMETIC_STANDALONE})
-option(MIMETIC_BUILD_DOCS "Build the MIMETIC documentation" ${MIMETIC_STANDALONE})
+option(MIMETIC_BUILD_DOCS "Build the MIMETIC documentation" OFF)
 option(MIMETIC_INSTALL "Generate installation target" ON)
 
 
@@ -56,7 +56,7 @@ add_library(mimetic)
 #create config file
 #configure_file(${CMAKE_CURRENT_SOURCE_DIR}/mimetic/config.h.cmake.in ${CMAKE_CURRENT_SOURCE_DIR}/mimetic/config.h)
 #create config file in build directory
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/mimetic/config.h.cmake.in ${mimetic_BINARY_DIR}/include/config.h)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/mimetic/config.h.cmake.in ${mimetic_BINARY_DIR}/include/mimetic/config.h)
 target_include_directories(mimetic PRIVATE ${mimetic_BINARY_DIR}/include/)
 
 # include sources from subdirectories
@@ -89,9 +89,15 @@ foreach(FILE ${SOURCESmimeticrfc822})
   set(libraryFiles ${libraryFiles} mimetic/rfc822/${FILE})
 endforeach()
 
+# Dirs are used by target_include_directories() and install()
+include(GNUInstallDirs)
+
 target_sources(mimetic PRIVATE ${libraryFiles} )
 target_link_directories(mimetic PRIVATE mimetic)
-target_include_directories(mimetic PUBLIC .)
+target_include_directories(mimetic PUBLIC 
+  "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>"    # for build
+  "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>"  # for install
+)
 
 if(MIMETIC_BUILD_TESTS)
 add_subdirectory(test)
@@ -110,9 +116,45 @@ endif()
 
 
 if (MIMETIC_INSTALL)
-    include(GNUInstallDirs)
-    install(TARGETS mimetic DESTINATION lib)
-    install(FILES ${mimetic_BINARY_DIR}/include/config.h DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/mimetic )
+    
+####
+# add include directories
+#target_include_directories(MathFunctions
+#                           PUBLIC
+#                           "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>"
+#                           "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>"
+#)
+
+# install the target and create export-set
+###install(TARGETS MathFunctions
+   #     EXPORT MathFunctionsTargets
+    #    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    #    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    #    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+    #    INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+#)
+
+# install header file
+#install(FILES MathFunctions.h DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+
+# generate and install export file
+#install(EXPORT MathFunctionsTargets
+ #      FILE MathFunctionsTargets.cmake
+ #       NAMESPACE MathFunctions::
+#        DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/MathFunctions
+#)
+
+
+####
+    install(TARGETS mimetic 
+        EXPORT mimeticTargets
+        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+        INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+        #DESTINATION lib
+        )
+    install(FILES ${mimetic_BINARY_DIR}/include/mimetic/config.h DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/mimetic )
 
     file(GLOB all_include_files_list CONFIGURE_DEPENDS "mimetic/*.h")
     install(FILES ${all_include_files_list} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/mimetic )
@@ -144,13 +186,57 @@ if (MIMETIC_INSTALL)
     #install(EXPORT MIMETICTargets FILE MIMETIC3Targets.cmake
     #        EXPORT_LINK_INTERFACE_LIBRARIES
     #        DESTINATION "${MIMETIC_CONFIG_PATH}")
-    #install(FILES "${MIMETIC_BINARY_DIR}/src/MIMETIC3.pc"
-    #        DESTINATION "${CMAKE_INSTALL_LIBDIR}/pkgconfig")
 
     if (DOXYGEN_FOUND AND MIMETIC_BUILD_DOCS)
         install(DIRECTORY "${mimetic_BINARY_DIR}/docs/html"
                 DESTINATION "${CMAKE_INSTALL_DOCDIR}")
     endif()
+
+    install(EXPORT mimeticTargets
+      FILE mimeticTargets.cmake
+      NAMESPACE mimetic::
+      DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/mimetic
+    )
+
+        #########
+    # Section to create package to use find_package(mimetic) command in Cmake files.
+    include(CMakePackageConfigHelpers)
+
+    set_property(TARGET mimetic PROPERTY VERSION ${MIMETIC_VERSION})
+    set_property(TARGET mimetic PROPERTY SOVERSION ${MIMETIC_MAJOR_VERSION})
+    set_property(TARGET mimetic PROPERTY
+      INTERFACE_mimetic_MAJOR_VERSION ${MIMETIC_MAJOR_VERSION} )
+    set_property(TARGET mimetic APPEND PROPERTY
+      COMPATIBLE_INTERFACE_STRING mimetic_MAJOR_VERSION
+    )
+
+    # generate the version file for the config file
+    write_basic_package_version_file(
+      "${CMAKE_CURRENT_BINARY_DIR}/mimeticConfigVersion.cmake"
+      VERSION "${MIMETIC_VERSION}"
+      COMPATIBILITY AnyNewerVersion
+    )
+
+    # create config file
+    configure_package_config_file(${CMAKE_CURRENT_SOURCE_DIR}/CMAKE/Config.cmake.in
+      "${CMAKE_CURRENT_BINARY_DIR}/mimeticConfig.cmake"
+      INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/mimetic
+    )
+
+    # install config files
+    install(FILES
+              "${CMAKE_CURRENT_BINARY_DIR}/mimeticConfig.cmake"
+              "${CMAKE_CURRENT_BINARY_DIR}/mimeticConfigVersion.cmake"
+              DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/mimetic
+        # or: DESTINATION "${MIMETIC_CONFIG_PATH}")
+            )
+
+    # generate the export targets for the build tree
+    export(EXPORT mimeticTargets
+          FILE "${CMAKE_CURRENT_BINARY_DIR}/cmake/mimeticTargets.cmake"
+          NAMESPACE mimetic::
+    )
+    #########
 
     # Only generate this target if no higher-level project already has
     if (NOT TARGET uninstall)
@@ -161,4 +247,6 @@ if (MIMETIC_INSTALL)
                           "${mimetic_BINARY_DIR}/cmake_uninstall.cmake")
         set_target_properties(uninstall PROPERTIES FOLDER "mimetic")
     endif()
+
+
 endif()

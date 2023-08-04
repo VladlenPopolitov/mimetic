@@ -14,7 +14,7 @@
 #include <iterator>
 #include <mimetic/libconfig.h>
 #include <mimetic/os/stdfile.h>
-#ifdef HAVE_MMAP
+#if HAVE_MMAP == 1
 #include <mimetic/os/mmfile.h>
 #endif
 

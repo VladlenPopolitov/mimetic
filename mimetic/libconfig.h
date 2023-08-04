@@ -7,24 +7,20 @@
 #ifndef _MIMETIC_LIB_CONFIG_H_
 #define _MIMETIC_LIB_CONFIG_H_
 #if defined(__unix__) || defined(__linux__) || defined(__unix) || defined(_AIX)
-#ifdef HAVE_MIMETIC_CONFIG
-#include "config.h"
-#endif
+#include <mimetic/config.h>
 #define CONFIG_UNIX
 #endif
 
 /* Mac OS X */
 #if defined(__APPLE__) && defined(__MACH__)
 typedef unsigned int uint;
-#ifdef HAVE_MIMETIC_CONFIG
-#include "config.h"
-#endif
+#include <mimetic/config.h>
 #define CONFIG_UNIX
 #endif
 
 /* Windows */
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32__)
-#include <mimetic/config_win32.h>
+#include <mimetic/config.h>
 #include <process.h>
 #include <io.h>
 #include <ctime>
