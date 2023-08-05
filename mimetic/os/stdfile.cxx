@@ -87,7 +87,7 @@ size_t StdFile::read(char* buf, size_t bufsz) const
     if (m_fd >= 0) {
         do
         {
-            r = ::read(m_fd, buf, bufsz);
+            r = ::read(m_fd, buf, static_cast<unsigned int>( bufsz ));
         } while (r < 0 && errno == EINTR);
     }
     return r;

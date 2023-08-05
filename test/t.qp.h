@@ -194,7 +194,7 @@ private:
         {
             if(tb[i] == QP::printable)
             {
-                comment += i;
+                comment += static_cast<char>(i);
                 comment += ", ";
                 pcom=true;
             } else {

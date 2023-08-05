@@ -89,7 +89,7 @@ class Encoder: public buffered_codec, public chainable_codec<Encoder>
     template<typename OutIt>
     void encodeChar(char_type c, OutIt& out)
     {
-        int cnt = m_cbuf.count();
+        auto cnt = m_cbuf.count();
         switch(sTb[c])
         {
         case printable:
@@ -342,8 +342,8 @@ class Decoder: public buffered_codec, public chainable_codec<Encoder>
                     char_type oc, last;
                     assert(m_prev.length());
                     last = m_prev[m_prev.length()-1];
-                    oc = hex_to_int(last) << 4 | 
-                        hex_to_int(c) ;
+                    oc = static_cast<char_type>( hex_to_int(last) << 4 | 
+                        hex_to_int(c) ) ;
                     write(oc,out);
                     m_prev.clear();
                 }

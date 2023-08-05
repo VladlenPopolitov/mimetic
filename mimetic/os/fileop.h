@@ -17,7 +17,7 @@ namespace mimetic
 /// Defines some file utility functions
 struct FileOp
 {
-    typedef unsigned int uint;
+    // @todo delete typedef unsigned int uint;
     /* static funtions */
     static bool remove(const std::string&);
     static bool move(const std::string&, const std::string&);

@@ -157,7 +157,7 @@ void engine::action_attach(MimeEntity& me, parts_hierarchy* ph, const string& fq
             {
                 name = bit->name();    
                 transform(name.begin(), name.end(), 
-                    name.begin(), ::tolower);
+                    name.begin(), ::tolower); // @todo tolower must be called with static_cast<unsigned char>(), lambda function required here
                 if(name.find("content-") == 0 || name == "mime-version")
                     continue;
                 mm->header().insert(pos, *bit);

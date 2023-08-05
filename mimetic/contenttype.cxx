@@ -36,7 +36,7 @@ ContentType::Boundary::Boundary()
         std::uniform_int_distribution<unsigned int> uniform(0, UINT_MAX);
         std::default_random_engine randomNumberEngine;
         short tbSize = sizeof(tb)-1;
-        for(uint i=0; i < 48; ++i)
+        for(unsigned int i=0; i < 48; ++i)
         {
             unsigned int r = uniform(randomNumberEngine); // @todo delete  rand();
             ss << tb[r % tbSize];

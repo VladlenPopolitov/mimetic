@@ -349,7 +349,7 @@ struct Runner
     Runner(int , char** )
     : mEvt(0)
     {
-        if(std::getenv("SKIMMER_MODE"))
+        if( false /* std::getenv("SKIMMER_MODE") */)
             mEvt = new SkimmerRunMonitor;
         else
             mEvt = new ConsoleRunMonitor;

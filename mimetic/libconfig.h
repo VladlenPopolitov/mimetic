@@ -13,7 +13,7 @@
 
 /* Mac OS X */
 #if defined(__APPLE__) && defined(__MACH__)
-typedef unsigned int uint;
+// @todo remove typedef unsigned int uint;
 #include <mimetic/config.h>
 #define CONFIG_UNIX
 #endif
@@ -25,7 +25,7 @@ typedef unsigned int uint;
 #include <io.h>
 #include <ctime>
 #include <cstdio>
-typedef unsigned int uint;
+// @todo remove typedef unsigned int uint;
 #define CONFIG_WIN32
 #endif
 
