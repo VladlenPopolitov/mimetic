@@ -79,7 +79,7 @@ public:
             ++*this;
             return it;
         }
-        bool operator==(const iterator& right)
+        bool operator==(const iterator& right) const
         {
             if(m_eoi && right.m_eoi)
                 return true;
@@ -93,10 +93,12 @@ public:
             #endif
             std::string(m_dirent->d_name) == right.m_dirent->d_name;
         }
-        bool operator!=(const iterator& right)
+
+        bool operator!=(const iterator& right) const
         {
             return !operator==(right);
         }
+
     private:
         void setDirent(struct dirent* dent)
         {

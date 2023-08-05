@@ -17,8 +17,8 @@ struct circular_buffer
 {
     typedef circular_buffer<T> self_type;
     typedef T value_type;
-    typedef unsigned int size_type;
-    circular_buffer(unsigned int sz = 4)
+    typedef size_t size_type;
+    circular_buffer(size_t sz = 4)
     : m_sz(sz), m_count(0), m_first(0), m_last(0)
     {
         m_pItem = new value_type[sz];
@@ -102,9 +102,9 @@ struct circular_buffer
                 return false;
         return true;
     }
-    inline value_type& operator[](unsigned int i) const
+    inline value_type& operator[](size_t i) const
     {
-        unsigned int idx = (m_first + i) % m_sz;
+        size_t idx = (m_first + i) % m_sz;
         return m_pItem[idx];
     }
     inline bool empty() const
@@ -129,7 +129,7 @@ struct circular_buffer
     }
 private:
     size_type m_sz, m_count;
-    int m_first, m_last;
+    long long m_first, m_last;
     value_type* m_pItem;
 };
 

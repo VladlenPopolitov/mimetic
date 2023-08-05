@@ -110,6 +110,18 @@ inline bool operator!=(const istring& is, const std::string& s)
             std::max(is.length(),s.length())) );
 }
 
+inline bool operator==(const istring& is, const istring& s)
+{
+    return (0 == ichar_traits::compare(is.c_str(),s.c_str(),
+            std::max(is.length(),s.length())) );
+}
+
+inline bool operator!=(const istring& is, const istring& s)
+{
+    return (0 != ichar_traits::compare(is.c_str(),s.c_str(),
+            std::max(is.length(),s.length())) );
+}
+
 inline bool operator!=(const istring& is, const char* str)
 {
     return (0 != ichar_traits::compare(is.c_str(),str,

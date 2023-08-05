@@ -155,7 +155,7 @@ struct TestRunMonitor
     virtual void enterFunction(const CuteeTest&) {}
     virtual void leaveFunction(const CuteeTest&, int ) {}
 
-    virtual void assertion(const CuteeTest&, int, 
+    virtual void assertion(const CuteeTest&, long long, 
         const std::string&   = "" ) {}
 };
 
@@ -185,13 +185,13 @@ struct CuteeTest: public cutee::Context
     virtual void run() = 0;
     virtual unsigned int count() = 0;
 protected:
-    void testAssert(int b)
+    void testAssert(long long b)
     {
         if( b == 0 ) // assertion failed 
             mFuncExitCode++; 
         mEvt->assertion(*this, b);
     }
-    void testAssertM(int b, std::stringstream& os)
+    void testAssertM(long long b, std::stringstream& os)
     {
         if( b == 0 ) // assertion failed 
             mFuncExitCode++; 
@@ -237,7 +237,7 @@ struct StatsMonitor: public TestRunMonitor
         else 
             mFuncFailed++;
     }
-    void assertion(const CuteeTest& , int b, const std::string& ) 
+    void assertion(const CuteeTest& , long long b, const std::string& ) 
     {
         mAssertCount++;
         if(b) 
@@ -253,7 +253,7 @@ protected:
 // keep stats and print results on exit
 struct ConsoleRunMonitor: public StatsMonitor
 {
-    void assertion(const CuteeTest& t, int b, const std::string& userMsg) 
+    void assertion(const CuteeTest& t, long long b, const std::string& userMsg) 
     {
         using namespace std;
         StatsMonitor::assertion(t, b, userMsg);
@@ -323,7 +323,7 @@ struct SkimmerRunMonitor: public StatsMonitor
         cout << "<type>" << (b ? "pass" : "fail") << "</type>" << endl;
         cout << "</test>" << endl << endl << endl;
     }
-    void assertion(const CuteeTest& t, int b, const std::string& u = "") 
+    void assertion(const CuteeTest& t, long long b, const std::string& u = "") 
     {
         using namespace std;
         if(b)
