@@ -145,25 +145,25 @@ public:
             //result = ti.result;
             std::string res = ti.result;
             circular_buffer<char> cb(ti.buf_sz);
-            char c;
-            while(0 != (c = *putstr++))
-                cb.push_back(c);
-            for(unsigned int c = 0; c < res.length(); c++)
+            char ch;
+            while(0 != (ch = *putstr++))
+                cb.push_back(ch);
+            for(auto c = 0; c < res.length(); c++)
             {
                 std::string subs = res.substr(c);
                 TEST_ASSERT( cb.compare(c,subs.length(),subs) );
             }
-            for(unsigned int c = 0; c < res.length(); c++)
+            for(auto c = 0; c < res.length(); c++)
             {
                 std::string subs = res.substr(c, res.length()-c);
                 TEST_ASSERT( cb.compare(c,subs.length(),subs) );
             }
-            for(unsigned int c = res.length(); c != 0;  c--)
+            for(auto c = res.length(); c != 0;  c--)
             {
                 std::string subs = res.substr(0,c);
                 TEST_ASSERT( cb.compare(0,subs.length(),subs) );
             }
-            for(unsigned int c = res.length(); c != 0;  c--)
+            for(auto c = res.length(); c != 0;  c--)
             {
                 TEST_ASSERT( cb.compare(0,c,res) );
             }

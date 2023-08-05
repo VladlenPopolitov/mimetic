@@ -3,9 +3,14 @@
 #include <string>
 #include <cctype>
 #include <sys/types.h>
+
+#ifdef HAVE_REGEX_H
 #include <regex.h>
 #ifdef HAS_PCRE
 #include <pcreposix.h>
+#endif
+#else
+#include <regex>
 #endif
 
 #include "engine.h"
@@ -36,6 +41,8 @@ engine::engine(const command_line& cl)
 
 int engine::posix_regex_match(const string& text, const string& pattern, int match_mode)
 {
+    
+#ifdef HAVE_REGEX_H
     int r;
     regex_t rex;
     r = regcomp(&rex, pattern.c_str(), 
@@ -49,9 +56,23 @@ int engine::posix_regex_match(const string& text, const string& pattern, int mat
     r = regexec(&rex, text.c_str(), 0, 0, 0);
     regfree(&rex);
     return r == 0;
+#else
+    std::regex_constants::syntax_option_type options{
+          std::regex_constants::syntax_option_type::extended 
+        | (match_mode & match_flag_case_insensitive ? std::regex_constants::syntax_option_type::icase : std::regex_constants::syntax_option_type::extended)};
+    
+    const std::regex rex(pattern, options);
+    std::smatch match;
+    if (std::regex_match(text, match, rex) && match.size() >= 1) {
+        return 1;
+    }
+    else {
+        return 0;
+    }
+#endif
 }
 
-int engine::perl_regex_match(const string& text, const string& pattern, int match_mode )
+int engine::perl_regex_match(const string& /* text */, const string&  /*pattern */, int /* match_mode */)
 {
 #ifdef HAS_PCRE
 #else
@@ -78,7 +99,7 @@ int engine::pattern_match(const string& text, const string& pattern, int match_m
     return 0;
 }
 
-int engine::shell_match(const string& text, const string& pattern, int match_mode)
+int engine::shell_match(const string& /* text */ , const string& /* pattern */ , int /* match_mode */)
 {
     die("not impl");
     return 0;
@@ -207,13 +228,13 @@ int engine::pattern_field_match(const MimeEntity& me, const string& expr,
     int has_value = 0; // left part of the expr
     char prev = 0; // previous char
     string field_pat, value_pat;
-    char op;
+    //char op; // @todo delete it?
     for(size_t i = 0; i < expr.length(); ++i)
     {
         if( (expr[i] == '=' || expr[i] == '~') && prev != '\\')
         {
             has_value++; // right part
-            op = expr[i];
+            // op = expr[i];  // @todo delete it?
             continue;
         }
         if(!has_value)
@@ -245,11 +266,13 @@ string engine::remove_external_blanks(const string& str) const
 {
     // a dirty way to trim ext.blanks
     string s = str;
-    for(int i = s.length() - 1; i >= 0; --i)
-        if(s[i] == ' ')
+    for (size_t i = s.length() - 1; ; --i) {
+        if (s[i] == ' ')
             s.erase(i, 1);
         else
             break;
+        if (i == 0) break;
+    }
     while(s.length() && s[0] == ' ')
         s.erase(0, 1);
     return s;
@@ -265,7 +288,7 @@ int engine::fixed_field_match(const MimeEntity& me, const string& name, const st
     return pattern_match(field_value, value, match_mode) ;
 }
 
-int engine::has_binary_attach(const MimeEntity& me, const command_line_switch& cls)
+int engine::has_binary_attach(const MimeEntity& me, const command_line_switch& /* cls */)
 {
     const Header& h = me.header();
     const ContentType& ct = h.contentType();
@@ -375,7 +398,7 @@ MimeEntity* engine::match(MimeEntity& me, int level, parts_hierarchy* ph)
             ph->erase(ph->begin());
         }
     }
-    static char *std_fields[] = {
+    static const char *std_fields[] = {
         "from", "sender", "to", "sujbect", "cc", "bcc",
         "user-agent", "date", "content-type", 
         "content-transfer-encoding", "content-disposition",
@@ -418,7 +441,7 @@ MimeEntity* engine::match(MimeEntity& me, int level, parts_hierarchy* ph)
             }
         } else {
             int break_loop = 0;
-            char **std_name = std_fields;
+            const char **std_name = std_fields;
             for( int i = 0 ; std_name[i] ; ++i) 
             {
                 if(name == std_name[i])

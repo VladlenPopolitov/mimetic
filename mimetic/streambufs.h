@@ -75,7 +75,7 @@ private:
 
 struct transform_streambuf: public std::streambuf
 {
-    typedef unsigned int size_type;
+    typedef size_t size_type;
     transform_streambuf()
     : m_oBuf(new char_type[512])
     {
@@ -102,7 +102,7 @@ struct transform_streambuf: public std::streambuf
     }
     int sync()
     {
-        int toSend = pptr() - pbase();
+        size_t toSend = pptr() - pbase();
         if(toSend)
         {
             write(pbase(), pbase() + toSend);
@@ -129,7 +129,7 @@ struct count_streambuf: public transform_streambuf
     }
     void write(const char_type* beg, const char_type* end)
     {
-        int toSend = end - beg;
+        size_t toSend = end - beg;
         if(toSend)
             m_count += toSend;
     }

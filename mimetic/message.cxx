@@ -120,7 +120,7 @@ MessageRfc822::MessageRfc822(const MimeEntity& me)
     m_header.contentType("message/rfc822");
 }
 
-ostream& MessageRfc822::write(ostream& os,const char* eol) const
+ostream& MessageRfc822::write(ostream& os,const char* /* eol */) const
 {
     MimeEntity::write(os);
     return os << m_me;

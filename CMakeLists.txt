@@ -53,6 +53,11 @@ add_compile_definitions(HAVE_MIMETIC_CONFIG=1)
 # create library mimetic
 add_library(mimetic)
 
+#generate maximal level of compiler warnings
+target_compile_options(mimetic PRIVATE
+  $<$<CXX_COMPILER_ID:MSVC>:/W4 >
+  $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Wall -Wextra -Wpedantic >
+)
 #create config file
 #configure_file(${CMAKE_CURRENT_SOURCE_DIR}/mimetic/config.h.cmake.in ${CMAKE_CURRENT_SOURCE_DIR}/mimetic/config.h)
 #create config file in build directory

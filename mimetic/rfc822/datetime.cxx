@@ -17,7 +17,6 @@ namespace mimetic
 
 
 using namespace std;
-using namespace mimetic;
 
 DateTime::Zone::Zone(int iZone)
 : m_iZone(iZone), m_iZoneIdx(0)
@@ -79,7 +78,7 @@ string DateTime::Zone::name() const
         return sTz;
     }
 }
-short DateTime::Zone::ordinal() const
+int DateTime::Zone::ordinal() const
 {
     return m_iZone;
 }
@@ -125,7 +124,7 @@ string DateTime::Month::name(bool longName) const
 {
     return ms_label[m_iMonth][longName ? mnLong : mnShort];
 }
-short DateTime::Month::ordinal() const
+int DateTime::Month::ordinal() const
 {
     return m_iMonth;
 }
@@ -173,7 +172,7 @@ string DateTime::DayOfWeek::name(bool longName) const
 {
     return ms_label[m_iDayOfWeek][longName ? mnLong : mnShort];
 }
-short DateTime::DayOfWeek::ordinal() const
+int DateTime::DayOfWeek::ordinal() const
 {
     return m_iDayOfWeek;
 }
@@ -338,7 +337,7 @@ DateTime::DayOfWeek DateTime::dayOfWeek() const
     return DayOfWeek(m_iDayOfWeek);
 }
 
-short DateTime::day() const
+int DateTime::day() const
 {
     return m_iDay;
 }
@@ -348,22 +347,22 @@ DateTime::Month DateTime::month() const
     return Month(m_iMonth);
 }
 
-short DateTime::year() const
+int DateTime::year() const
 {
     return m_iYear;
 }
 
-short DateTime::hour() const
+int DateTime::hour() const
 {
     return m_iHour;
 }
 
-short DateTime::minute() const
+int DateTime::minute() const
 {
     return m_iMinute;
 }
 
-short DateTime::second() const
+int DateTime::second() const
 {
     return m_iSecond;
 }
@@ -388,7 +387,8 @@ FieldValue* DateTime::clone() const
 
 ostream& operator<<(ostream& os, const DateTime& dt)
 {
-    int width = os.width(), fill = os.fill();
+    auto width = os.width();
+    auto fill = os.fill();
 
     os << dt.dayOfWeek().name() << ", "
        << setw(2) << setfill('0') << dt.day() << " "

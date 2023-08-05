@@ -171,13 +171,13 @@ public:
             else 
                 tb[c] = QP::binary;
         }
-        tb['\t'] = QP::tab; 
-        tb[' '] = QP::sp;
-        tb['='] = QP::unsafe;
+        tb[static_cast<unsigned char>('\t')] = QP::tab; 
+        tb[static_cast<unsigned char>(' ')] = QP::sp;
+        tb[static_cast<unsigned char>('=')] = QP::unsafe;
         tb[QP::CR] = tb[QP::LF] = QP::newline;
         const char* unsafe = "!\"#$@[]\\^`{}|~";
         while(*unsafe != 0)
-            tb[*unsafe++] = QP::unsafe;
+            tb[static_cast<unsigned>(*unsafe++)] = QP::unsafe;
         for(int i = 0; i < 256; i++)
         {
             TEST_ASSERT(tb[i] == QP::sTb[i]);

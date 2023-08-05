@@ -33,6 +33,7 @@ std::string extractFilename(const std::string&);
 
 /// returns a string representation of \p n
 std::string int2str(int n);
+std::string time_t2str(time_t n);
 
 /// return true if the string contains just blanks (space and tabs)
 bool string_is_blank(const std::string&);
@@ -47,10 +48,10 @@ std::string int2hex(unsigned int n);
 template<typename Iterator>
 Iterator find_bm(Iterator bit, Iterator eit, const std::string& word, const std::random_access_iterator_tag&)
 {
-    int bLen = word.length();
-    int sourceLen = std::distance(bit, eit);
+    long long bLen = word.length();
+    long long sourceLen = std::distance(bit, eit);
     const char* pWord = word.c_str();
-    int i, t, shift[256];
+    long long i, t, shift[256];
     unsigned char c;
 
     for(i = 0; i < 256; ++i)  

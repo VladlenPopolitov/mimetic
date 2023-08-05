@@ -53,7 +53,7 @@ struct MatchParamRq
         if(subtype.length() && subtype != h.contentType().subtype())
             return false;
 
-        bool matched;
+        int matched{0};
         // check for params matches
         if(paramList.size())
         {

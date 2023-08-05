@@ -60,7 +60,8 @@ struct MatchParamRq
     bool quiet() const        { return m_quiet; }
 private:
     istring m_type, m_subtype;
-    bool m_quiet, m_set;
+    bool m_quiet;
+    int m_set;
 } mpr;
 
 void die(bool b, const string& msg)
@@ -245,7 +246,7 @@ int main(int argc, char** argv)
         string buf;
         enum { page_sz = 4096 };
         char page[page_sz];
-        int count;
+        size_t count;
         while((count = cin.rdbuf()->sgetn(page, page_sz)) > 0)
             buf.append(page);
         parse(buf.begin(), buf.end(), fqn);
@@ -254,6 +255,7 @@ int main(int argc, char** argv)
         for(int fc = p; fc < argc; ++fc)
         {
             fqn = argv[fc];
+#if HAS_MMAP == 1
             File in(fqn);
             if(!in)
             {
@@ -263,6 +265,24 @@ int main(int argc, char** argv)
             }
             g_files++;
             parse(in.begin(), in.end(), fqn);
+#else
+
+            File inFile(fqn);
+            if (!inFile)
+            {
+                cerr << "ERR: unable to open file " << argv[fc]
+                    << endl;
+                continue;
+            }
+            string buf;
+            enum { page_sz = 4096 };
+            char page[page_sz];
+            size_t count;
+            while ((count = inFile.read(page, page_sz)) > 0)
+                buf.append(page,count);
+            parse(buf.begin(), buf.end(), fqn);
+            g_files++;
+#endif
         }
     }
     if(!mpr.quiet())

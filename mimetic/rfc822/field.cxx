@@ -38,7 +38,7 @@ Field::Field(const string& line)
     if(colon != string::npos)
     {
         m_name.assign(line.begin(), line.begin() + colon);
-        unsigned int i;
+        size_t i;
         for(i = 1 + colon; i < line.length() - 1 && line[i] == ' '; ++i)
             ; // skip spaces before field-body
         string val(line.begin() +i, line.end());
@@ -148,13 +148,14 @@ std::ostream& operator<<(std::ostream& os, const Field& f)
 
 ostream& Field::write(ostream& os, unsigned int fold) const
 {
-    int in_quote, prev, skip;
+    int in_quote, prev;
+    size_t skip;
 
     // default folding idiot-algorithm
     // override to customize
     if(fold)
     {
-        int i, sp;
+        size_t i{0},sp{0};
         string ostr = name() + ": " + value();
 
         // skip the "fieldname: " part just on the first inner iteration 

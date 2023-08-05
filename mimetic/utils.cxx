@@ -7,6 +7,7 @@
 #include <mimetic/utils.h>
 #include <sstream>
 #include <stdlib.h>
+#include <string>
 
 namespace mimetic
 {
@@ -67,6 +68,41 @@ private:
     std::string m_si;
 };
 
+struct Time_t
+{
+private:
+    time_t m_i;
+    std::string m_si;
+public:
+    Time_t(time_t n)
+        : m_i(n)
+    {
+        stringstream ss;
+        ss << m_i;
+        ss >> m_si;
+    }
+    Time_t(const std::string& ns)
+    {
+        stringstream ss;
+        ss << ns;
+        ss >> m_i;
+        if (ss.fail())
+            m_i = 0;
+        stringstream ss2;
+        ss2 << m_i;
+        ss2 >> m_si;
+    }
+    operator time_t() const
+    {
+        return m_i;
+    }
+
+    operator string() const
+    {
+        return m_si;
+    }
+
+};
 
 bool string_is_blank(const std::string& s)
 {
@@ -113,7 +149,7 @@ string int2hex(unsigned int n)
             if(zeros)
                 r.insert((string::size_type)0, zeros, '0');
             zeros = 0;
-            r.insert((string::size_type)0, 1, tb[cp]);
+            r.insert((string::size_type)0, 1, tb[static_cast<unsigned>(cp)]);
         }
     }
     return r;
@@ -125,6 +161,13 @@ string int2str(int n)
     Int i(n);
     return i;
 }
+
+string time_t2str(time_t n)
+{
+    Time_t i(n);
+    return i;
+}
+
 
 int str2int(const string& str)
 {

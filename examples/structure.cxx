@@ -67,14 +67,14 @@ void printMimeStructure(MimeEntity* pMe, int tabcount = 0)
                 const ContentDisposition cd = h.contentDisposition();
                 cout << "disposition: " << cd.type() << endl;
                 ContentDisposition::ParamList::const_iterator 
-                    bit, eit;
-                bit = cd.paramList().begin();
-                eit = cd.paramList().end();
-                for(; bit != eit; ++bit)
+                    bit1, eit1;
+                bit1 = cd.paramList().begin();
+                eit1 = cd.paramList().end();
+                for(; bit1 != eit1; ++bit1)
                 {
                     printTabs(tabcount);
-                    cout << "param: " << bit->name() << " = " 
-                         << bit->value() << endl;
+                    cout << "param: " << bit1->name() << " = " 
+                         << bit1->value() << endl;
                 }
             }
             Header::iterator hbit, heit;

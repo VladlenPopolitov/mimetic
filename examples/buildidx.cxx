@@ -10,7 +10,9 @@
  *  more info on:
  *      buildidx -h
  */ 
+
 #include <iostream>
+#ifdef HAVE_DIRENT_H
 #include <sstream>
 #include <iterator>
 #include <fstream>
@@ -120,3 +122,9 @@ int main(int argc, char** argv)
     return g_indexed;
 }
 
+#else 
+
+int main(int, char**) {
+    std::cout << "This version of mimetic in this port does not have support of <dirent.h> or similar library" << std::endl;
+ }
+#endif

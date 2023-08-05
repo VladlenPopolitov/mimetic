@@ -54,7 +54,7 @@ public:
     }
     void TEST_FUNCTION( testStdFile )
     {
-        std::ifstream ifs(m_text_fqn.c_str());
+        std::ifstream ifs(m_text_fqn.c_str(), std::ios_base::binary);
         std::istreambuf_iterator<char> beg(ifs), end;
         StdFile in(m_text_fqn);
         StdFile::iterator fbeg = in.begin(), fend = in.end();
@@ -69,7 +69,7 @@ public:
     }
     void TEST_FUNCTION( testFileIterator )
     {
-        std::ifstream ifs(m_text_fqn.c_str());
+        std::ifstream ifs(m_text_fqn.c_str(), std::ios_base::binary);
         std::istreambuf_iterator<char> beg(ifs), end;
         File in(m_text_fqn);
         File::iterator fbeg = in.begin(), fend = in.end();
@@ -84,7 +84,7 @@ public:
     }
     void TEST_FUNCTION( testFileConstIterator )
     {
-        std::ifstream ifs(m_text_fqn.c_str());
+        std::ifstream ifs(m_text_fqn.c_str(), std::ios_base::binary);
         std::istreambuf_iterator<char> beg(ifs), end;
         const File in(m_text_fqn);
         File::const_iterator fbeg = in.begin(), fend = in.end();
@@ -99,7 +99,7 @@ public:
     }
     void TEST_FUNCTION( testBinFileIterator )
     {
-        std::ifstream ifs(m_bin_fqn.c_str());
+        std::ifstream ifs(m_bin_fqn.c_str(), std::ios_base::binary);
         std::istreambuf_iterator<char> beg(ifs), end;
         File in(m_bin_fqn);
         File::iterator fbeg = in.begin(), fend = in.end();
@@ -114,7 +114,7 @@ public:
     }
     void TEST_FUNCTION( testBinFileConstIterator )
     {
-        std::ifstream ifs(m_bin_fqn.c_str());
+        std::ifstream ifs(m_bin_fqn.c_str(),std::ios_base::binary);
         std::istreambuf_iterator<char> beg(ifs), end;
         const File in(m_bin_fqn);
         File::const_iterator fbeg = in.begin(), fend = in.end();
