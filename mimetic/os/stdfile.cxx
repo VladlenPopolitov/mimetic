@@ -30,7 +30,7 @@ namespace mimetic
 
 
 StdFile::StdFile()
-: m_stated(false), m_fd(-1)
+: m_stated(false), m_fd(-1), m_st{}
 {
 }
 
@@ -56,7 +56,7 @@ void StdFile::open(int mode)
 
 StdFile::~StdFile()
 {
-    if(m_fd)
+    if(m_fd>=0)
         close();
 }
 
@@ -72,11 +72,13 @@ StdFile::iterator StdFile::end()
 
 uint StdFile::read(char* buf, int bufsz)
 {
-    int r;
-    do
-    {
-        r = ::read(m_fd, buf, bufsz);
-    } while(r < 0 && errno == EINTR);
+    int r = 0;
+    if (m_fd >= 0) {
+        do
+        {
+            r = ::read(m_fd, buf, bufsz);
+        } while (r < 0 && errno == EINTR);
+    }
     return r;
 }
 
@@ -92,8 +94,8 @@ bool StdFile::stat()
 
 void StdFile::close() 
 {
-    while(::close(m_fd) < 0 && errno == EINTR)
-        ;
+    if(m_fd>=0)
+        ::close(m_fd);
     m_fd = -1;
 }
 

@@ -15,7 +15,7 @@
 #define HAVE_SYS_TYPES_H 1
 
 #define PACKAGE "mimetic"
-#define VERSION "0.9.7"
+#define VERSION "0.10.0"
 
 
 typedef __int16 int16_t;
