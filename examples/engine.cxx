@@ -58,8 +58,8 @@ int engine::posix_regex_match(const string& text, const string& pattern, int mat
     return r == 0;
 #else
     std::regex_constants::syntax_option_type options{
-          std::regex_constants::syntax_option_type::extended 
-        | (match_mode & match_flag_case_insensitive ? std::regex_constants::syntax_option_type::icase : std::regex_constants::syntax_option_type::extended)};
+          std::regex_constants::extended 
+        | (match_mode & match_flag_case_insensitive ? std::regex_constants::icase : std::regex_constants::extended)};
     
     const std::regex rex(pattern, options);
     std::smatch match;
