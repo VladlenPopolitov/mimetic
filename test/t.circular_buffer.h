@@ -148,12 +148,12 @@ public:
             char ch;
             while(0 != (ch = *putstr++))
                 cb.push_back(ch);
-            for(auto c = 0; c < res.length(); c++)
+            for(size_t c = 0; c < res.length(); c++)
             {
                 std::string subs = res.substr(c);
                 TEST_ASSERT( cb.compare(c,subs.length(),subs) );
             }
-            for(auto c = 0; c < res.length(); c++)
+            for(size_t c = 0; c < res.length(); c++)
             {
                 std::string subs = res.substr(c, res.length()-c);
                 TEST_ASSERT( cb.compare(c,subs.length(),subs) );

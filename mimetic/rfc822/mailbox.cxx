@@ -68,7 +68,7 @@ void Mailbox::set(const string& input)
     {
         bool in_dquote = false, in_comment = false;
         auto endoff = t - 1;
-        for(auto x = input.length() -1 ; x >= 0; --x)
+        for(auto x = input.length() -1 ; ; --x)
         {
             string::value_type ch = input[x];
             if(in_comment && ch == '(') {
@@ -105,7 +105,7 @@ void Mailbox::set(const string& input)
         }
     } else {
         bool in_dquote = false, in_comment = false;
-        for(auto x = input.length() -1 ; x >= 0; --x)
+        for(auto x = input.length() -1 ; ; --x)
         {
             string::value_type ch = input[x];
             string::size_type len = input.length();

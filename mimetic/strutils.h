@@ -82,6 +82,11 @@ struct istring: public string
     istring(size_type count, value_type ch,const allocator_type& al)
     : string(count,ch,al)
     {}
+    istring& operator=(istring x)
+    {
+        x.swap(*this);
+        return *this;
+    }
     template <class InIt>
     istring(InIt first, InIt last)
     : string(first, last)
