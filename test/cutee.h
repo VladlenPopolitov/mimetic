@@ -38,7 +38,7 @@ typedef unsigned int uint;
         mEvt->enterFunction(*this); \
         mFuncExitCode = 0; \
         funcname(); \
-        if(mFuncExitCode) mFailed++; \
+        if(mFuncExitCode) {std::cout<<"Function failed " #funcname <<std::endl; mFailed++;} \
         mEvt->leaveFunction(*this, mFuncExitCode == 0); \
     } \
     void funcname()

@@ -23,10 +23,18 @@ struct StdFile: public FileOp
 {
     typedef ifile_iterator iterator;
     StdFile();
+#ifdef O_BINARY
+    StdFile(const std::string&, int mode = (O_RDONLY | O_BINARY));
+#else 
     StdFile(const std::string&, int mode = O_RDONLY);
+#endif
     ~StdFile();
     operator bool() const;
+#ifdef O_BINARY
+    void open(const std::string&, int mode = (O_RDONLY | O_BINARY));
+#else
     void open(const std::string&, int mode = O_RDONLY);
+#endif
     void close();
     uint read(char*, int);
 

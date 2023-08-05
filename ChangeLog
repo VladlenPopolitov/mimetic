@@ -1,4 +1,6 @@
-
+05.08.2023, 0.10.0
+	- CMake configuration files added
+	- all tests run on Windows successfully
 17.06.2014, 0.9.8
 	- clang/gcc compilation fixes in tokenizer.h
 
