@@ -4,9 +4,8 @@
 
     $Id: contenttype.cxx,v 1.3 2008-10-07 11:06:25 tat Exp $
  ***************************************************************************/
-//#include <cstdlib>
-//#include <ctime>
 #include <random>
+#include <climits>
 #include <sstream>
 #include <iomanip>
 #include <cassert>
