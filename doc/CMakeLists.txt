@@ -2,7 +2,17 @@
 # NOTE: The order of this list determines the order of items in the Guides
 #       (i.e. Pages) list in the generated documentation
 set(source_files
-)
+ ../examples/b64.cxx
+ ../examples/buildidx.cxx
+ ../examples/catpart.cxx
+ ../examples/exbin.cxx
+ ../examples/mbox.cxx
+ ../examples/qp.cxx
+ ../examples/search.cxx
+ ../examples/smime2xml.cxx
+ ../examples/smimestruct.cxx
+ ../examples/structure.cxx
+ )
 
 set(extra_files  header.html footer.html)
 
@@ -29,5 +39,5 @@ add_custom_command(OUTPUT "html/index.html"
                    VERBATIM)
 
 add_custom_target(docs ALL SOURCES "html/index.html")
-set_target_properties(docs PROPERTIES FOLDER "GLFW3")
+set_target_properties(docs PROPERTIES FOLDER "mimetic")
 

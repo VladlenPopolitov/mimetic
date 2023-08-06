@@ -5,7 +5,7 @@
     $Id: qp.cxx,v 1.3 2008-10-07 11:06:25 tat Exp $
  ***************************************************************************/
 
-/** \example qp.cc
+/** @example qp.cxx
  * Usage: qp [-ed] [in_file [out_file]]
  *
  * Quoted-Printable encodes or decodes in_file (or standard input) and writes

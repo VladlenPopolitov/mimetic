@@ -16,7 +16,7 @@ string(COMPARE EQUAL "${CMAKE_CURRENT_SOURCE_DIR}" "${CMAKE_SOURCE_DIR}" MIMETIC
 option(BUILD_SHARED_LIBS "Build shared libraries" OFF)
 option(MIMETIC_BUILD_EXAMPLES "Build the MIMETIC example programs" ${MIMETIC_STANDALONE})
 option(MIMETIC_BUILD_TESTS "Build the MIMETIC test programs" ${MIMETIC_STANDALONE})
-option(MIMETIC_BUILD_DOCS "Build the MIMETIC documentation" OFF)
+option(MIMETIC_BUILD_DOCS "Build the MIMETIC documentation" ON)
 option(MIMETIC_INSTALL "Generate installation target" ON)
 
 
@@ -117,6 +117,8 @@ if (MIMETIC_BUILD_DOCS)
 endif()
 if(DOXYGEN_FOUND AND MIMETIC_BUILD_DOCS)
  add_subdirectory(doc)
+else()
+ message("Doxygen not used") 
 endif()
 
 
@@ -179,18 +181,6 @@ if (MIMETIC_INSTALL)
     set(CPACK_PACKAGE_VERSION_MINOR "${MIMETIC_MINOR_VERSION}")
     set(CPACK_PACKAGE_VERSION_PATCH "${MIMETIC_PATCH_VERSION}")
     include(CPack)
-
-
-    #install(DIRECTORY include/MIMETIC DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
-    #        FILES_MATCHING PATTERN MIMETIC3.h PATTERN MIMETIC3native.h)
-
-    #install(FILES "${MIMETIC_BINARY_DIR}/src/MIMETIC3Config.cmake"
-    #              "${MIMETIC_BINARY_DIR}/src/MIMETIC3ConfigVersion.cmake"
-    #        DESTINATION "${MIMETIC_CONFIG_PATH}")
-
-    #install(EXPORT MIMETICTargets FILE MIMETIC3Targets.cmake
-    #        EXPORT_LINK_INTERFACE_LIBRARIES
-    #        DESTINATION "${MIMETIC_CONFIG_PATH}")
 
     if (DOXYGEN_FOUND AND MIMETIC_BUILD_DOCS)
         install(DIRECTORY "${mimetic_BINARY_DIR}/docs/html"

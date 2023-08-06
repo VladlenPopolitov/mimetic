@@ -4,7 +4,7 @@
 
     $Id: b64.cxx,v 1.3 2008-10-07 11:06:25 tat Exp $
  ***************************************************************************/
-/** \example b64.cc
+/** @example b64.cxx
  * Usage: b64 [-ed] [in_file [out_file]]
  *
  * Base64 encodes or decodes in_file (or standard input) and writes
