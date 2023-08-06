@@ -10,7 +10,13 @@
 #include <openssl/x509.h>
 #include <openssl/err.h>
 #include <openssl/ssl.h>
-
+/** @example smimestruct.cxx
+ * Usage: smimestruct  [-v] [in_file]
+ *     -v Verbose mode
+ *     -q totaly quiet
+ *     exit code = num of entities
+ *
+ */
 using namespace std;
 using namespace mimetic;
 
@@ -158,7 +164,7 @@ int main(int argc, char** argv)
     int iMask = imPreamble | imEpilogue;
 
     /* Initialize the OpenSSL engine.  */
-    CRYPTO_mem_ctrl(CRYPTO_MEM_CHECK_ON);
+    // @todo delete obsolete CRYPTO_mem_ctrl(CRYPTO_MEM_CHECK_ON);
     OpenSSL_add_all_algorithms();
     ERR_load_crypto_strings();
 

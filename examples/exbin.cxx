@@ -5,7 +5,7 @@
     $Id: exbin.cxx,v 1.5 2008-10-07 11:06:25 tat Exp $
  ***************************************************************************/
 
-/** \example exbin.cc
+/** @example exbin.cxx
  *  extract a Part based on command line parameters
  *  more info on:
  *      exbin -h

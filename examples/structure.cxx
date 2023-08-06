@@ -5,7 +5,7 @@
     $Id: structure.cxx,v 1.6 2008-10-07 11:06:25 tat Exp $
  ***************************************************************************/
 
-/** \example structure.cc
+/** @example structure.cxx
  * Usage: structure [-ed] [in_file [out_file]]
  *
  * Reads in_file (or standard input) and writes its MIME structure to out_file

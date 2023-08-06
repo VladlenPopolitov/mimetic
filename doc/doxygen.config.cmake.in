@@ -1,13 +1,13 @@
-# Doxyfile 1.3.1
+# Doxyfile 1.9.7
 
 #---------------------------------------------------------------------------
 # General configuration options
 #---------------------------------------------------------------------------
+DOXYFILE_ENCODING      = UTF-8
 PROJECT_NAME           = "mimetic"
 PROJECT_NUMBER         = "@MIMETIC_VERSION@"
 OUTPUT_DIRECTORY       = "@mimetic_BINARY_DIR@/docs"
 OUTPUT_LANGUAGE        = English
-USE_WINDOWS_ENCODING   = NO
 EXTRACT_ALL            = NO
 EXTRACT_PRIVATE        = NO
 EXTRACT_STATIC         = NO
@@ -29,7 +29,6 @@ HIDE_SCOPE_NAMES       = YES
 SHOW_INCLUDE_FILES     = YES
 JAVADOC_AUTOBRIEF      = NO
 MULTILINE_CPP_IS_BRIEF = NO
-DETAILS_AT_TOP         = NO
 INHERIT_DOCS           = YES
 INLINE_INFO            = YES
 SORT_MEMBER_DOCS       = YES
@@ -50,7 +49,7 @@ SHOW_USED_FILES        = YES
 #---------------------------------------------------------------------------
 QUIET                  = NO
 WARNINGS               = YES
-WARN_IF_UNDOCUMENTED   = YES
+WARN_IF_UNDOCUMENTED   = NO
 WARN_IF_DOC_ERROR      = YES
 WARN_FORMAT            = "$file:$line: $text"
 WARN_LOGFILE           = 
@@ -62,11 +61,11 @@ INPUT                  = @MIMETIC_DOXYGEN_INPUT@
 FILE_PATTERNS          = *.h \
                          *.dox
 RECURSIVE              = YES
-EXCLUDE                = 
+EXCLUDE                = "@mimetic_SOURCE_DIR@/examples/"
 EXCLUDE_SYMLINKS       = NO
 EXCLUDE_PATTERNS       = 
-EXAMPLE_PATH           = "@mimetic_SOURCE_DIR@/test"
-EXAMPLE_PATTERNS       = *.cxx 
+EXAMPLE_PATH           = "@mimetic_SOURCE_DIR@/examples/"
+EXAMPLE_PATTERNS       = *.cxx *.c 
 EXAMPLE_RECURSIVE      = YES
 IMAGE_PATH             = 
 INPUT_FILTER           = 
@@ -84,7 +83,6 @@ VERBATIM_HEADERS       = YES
 # configuration options related to the alphabetical class index
 #---------------------------------------------------------------------------
 ALPHABETICAL_INDEX     = YES
-COLS_IN_ALPHA_INDEX    = 3
 IGNORE_PREFIX          = 
 #---------------------------------------------------------------------------
 # configuration options related to the HTML output
@@ -95,7 +93,6 @@ HTML_FILE_EXTENSION    = .html
 HTML_HEADER            = "@mimetic_SOURCE_DIR@/doc/header.html"
 HTML_FOOTER            = "@mimetic_SOURCE_DIR@/doc/footer.html"
 HTML_STYLESHEET        = 
-HTML_ALIGN_MEMBERS     = YES
 GENERATE_HTMLHELP      = NO
 CHM_FILE               = 
 HHC_LOCATION           = 
@@ -114,7 +111,7 @@ LATEX_OUTPUT           = latex
 LATEX_CMD_NAME         = latex
 MAKEINDEX_CMD_NAME     = makeindex
 COMPACT_LATEX          = NO
-PAPER_TYPE             = a4wide
+PAPER_TYPE             = a4
 EXTRA_PACKAGES         = 
 LATEX_HEADER           = 
 PDF_HYPERLINKS         = NO
@@ -142,8 +139,6 @@ MAN_LINKS              = NO
 #---------------------------------------------------------------------------
 GENERATE_XML           = NO
 XML_OUTPUT             = xml
-XML_SCHEMA             = 
-XML_DTD                = 
 #---------------------------------------------------------------------------
 # configuration options for the AutoGen Definitions output
 #---------------------------------------------------------------------------
@@ -174,11 +169,9 @@ TAGFILES               =
 GENERATE_TAGFILE       = 
 ALLEXTERNALS           = NO
 EXTERNAL_GROUPS        = YES
-PERL_PATH              = /usr/bin/perl
 #---------------------------------------------------------------------------
 # Configuration options related to the dot tool   
 #---------------------------------------------------------------------------
-CLASS_DIAGRAMS         = YES
 HIDE_UNDOC_RELATIONS   = YES
 HAVE_DOT               = NO
 CLASS_GRAPH            = YES
@@ -190,8 +183,6 @@ GRAPHICAL_HIERARCHY    = YES
 DOT_IMAGE_FORMAT       = png
 DOT_PATH               = 
 DOTFILE_DIRS           = 
-MAX_DOT_GRAPH_WIDTH    = 1024
-MAX_DOT_GRAPH_HEIGHT   = 1024
 MAX_DOT_GRAPH_DEPTH    = 0
 GENERATE_LEGEND        = YES
 DOT_CLEANUP            = YES
@@ -199,9 +190,3 @@ DOT_CLEANUP            = YES
 # Configuration::addtions related to the search engine   
 #---------------------------------------------------------------------------
 SEARCHENGINE           = NO
-CGI_NAME               = search.cgi
-CGI_URL                = 
-DOC_URL                = 
-DOC_ABSPATH            = 
-BIN_ABSPATH            = /usr/local/bin/
-EXT_DOC_PATHS          = 

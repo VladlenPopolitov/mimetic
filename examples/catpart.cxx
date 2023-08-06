@@ -5,7 +5,7 @@
     $Id: catpart.cxx,v 1.3 2008-10-07 11:06:25 tat Exp $
  ***************************************************************************/
 
-/** \example catpart.cc
+/** @example catpart.cxx
  *  extract a Part based on command line parameters
  *  more info on:
  *      catpart -h
