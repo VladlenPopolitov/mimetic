@@ -10,6 +10,11 @@ int TestList::list_idx = 0;
 
 int main(int argc, char **argv) 
 {
+	try {
 	Runner r(argc, argv);
 	r.run();
+	} catch(...) {
+     return 1;
+	}
+	return 0;
 }

@@ -212,7 +212,7 @@ protected:
             if(tmp != 0)
             {
                 assert(oldBufsz > 0);
-                memset(buf, 0, bufsz);
+                memset(buf, 0, bufsz); // @todo check - must be bufsz+1
                 memcpy(buf, tmp, oldBufsz);
                 delete[] tmp;
             }

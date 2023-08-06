@@ -58,14 +58,25 @@ WARN_LOGFILE           =
 # configuration options related to the input files
 #---------------------------------------------------------------------------
 INPUT                  = ../mimetic \
-                         .
+                         . \
+                         ../examples/b64.cxx \
+                         ../examples/buildidx.cxx \
+    ../examples/catpart.cxx \
+    ../examples/exbin.cxx \
+    ../examples/mbox.cxx \
+    ../examples/qp.cxx \
+    ../examples/search.cxx \
+    ../examples/smime2xml.cxx \
+    ../examples/smimestruct.cxx \
+    ../examples/structure.cxx \
 FILE_PATTERNS          = *.h \
-                         *.dox
+                         *.dox 
+                         
 RECURSIVE              = YES
 EXCLUDE                = 
 EXCLUDE_SYMLINKS       = NO
 EXCLUDE_PATTERNS       = 
-EXAMPLE_PATH           = ../test
+EXAMPLE_PATH           = ../examples
 EXAMPLE_PATTERNS       = 
 EXAMPLE_RECURSIVE      = YES
 IMAGE_PATH             = 
