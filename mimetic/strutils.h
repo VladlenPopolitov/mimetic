@@ -20,21 +20,21 @@ extern const std::string nullstring;
 struct ichar_traits : public std::char_traits<char>
 {
     static bool eq (const char_type & c1, const char_type& c2)
-    {    return (toupper(c1) == toupper(c2));    }
+    {    return (toupper(static_cast<unsigned char>(c1)) == toupper(static_cast<unsigned char>(c2)));    }
     static bool ne (const char_type& c1, const char_type& c2)
-    {    return (toupper(c1) != toupper(c2));    }
+    {    return (toupper(static_cast<unsigned char>(c1)) != toupper(static_cast<unsigned char>(c2)));    }
     static bool lt (const char_type& c1, const char_type& c2)
-    {    return (toupper(c1) < toupper(c2));    }
+    {    return (toupper(static_cast<unsigned char>(c1)) < toupper(static_cast<unsigned char>(c2)));    }
     static int compare (const char_type* s1, const char_type* s2, size_t n)
     {
         for(size_t i=0; i < n; ++i)
-            if(toupper(s1[i]) != toupper(s2[i]))
-                return (toupper(s1[i]) < toupper(s2[i])) ?-1: 1;
+            if(toupper(static_cast<unsigned char>(s1[i])) != toupper(static_cast<unsigned char>(s2[i])))
+                return (toupper(static_cast<unsigned char>(s1[i])) < toupper(static_cast<unsigned char>(s2[i]))) ?-1: 1;
         return 0;
     }
     static const char* find( const char* s, int n, char a ) 
     {
-        while( n-- > 0 && tolower(*s) != tolower(a) ) 
+        while( n-- > 0 && tolower(static_cast<unsigned char>(*s)) != tolower(static_cast<unsigned char>(a)) )
                          ++s;
         return s;
     }

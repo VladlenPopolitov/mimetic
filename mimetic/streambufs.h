@@ -95,7 +95,7 @@ struct transform_streambuf: public std::streambuf
             return EOF;
         if(meta != EOF)
         {
-            *pptr() = static_cast<char>(meta);
+            *pptr() = static_cast<char_type>(meta);
             pbump(1);
         }
         return meta;
