@@ -44,7 +44,8 @@ struct circular_buffer
 
         if(m_pItem)
             delete[] m_pItem;
-         m_pItem = new value_type[m_sz];
+        m_pItem = nullptr; // to ensure data consistency in the case of exception in next new
+        m_pItem = new value_type[m_sz];
         for(size_type i =0; i < m_sz; i++)
             m_pItem[i] = r.m_pItem[i];
         return *this;

@@ -125,7 +125,7 @@ T& Rfc822Header::getField(const std::string& name)
         if(pFv == 0)
         {
             pFv = new T;
-            assert(pFv);
+            assert(pFv); // @todo review assert here, it is runtime error and should not crash program
             it->m_pValue = pFv;
         }
         // be sure that it's the correct type
