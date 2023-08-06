@@ -17,16 +17,16 @@ namespace mimetic
 /// Defines some file utility functions
 struct FileOp
 {
-    typedef unsigned int uint;
+    // @todo delete typedef unsigned int uint;
     /* static funtions */
     static bool remove(const std::string&);
     static bool move(const std::string&, const std::string&);
     static bool exists(const std::string&);
 
-    static uint size(const std::string&);
-    static uint ctime(const std::string&); // creation time
-    static uint atime(const std::string&); // last time accessed(r/w)
-    static uint mtime(const std::string&); // last time written
+    static size_t size(const std::string&);
+    static time_t ctime(const std::string&); // creation time
+    static time_t atime(const std::string&); // last time accessed(r/w)
+    static time_t mtime(const std::string&); // last time written
 };
 
 }

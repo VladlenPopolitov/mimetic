@@ -60,15 +60,15 @@ void Mailbox::set(const string& input)
     // string::erase, etc) so we must reset all pointers after
     // the string::erase or/and we cannot cache begin() end()
 
-    int t = input.length() -1;
+    auto t = input.length() -1;
     while(t && input[t] == ' ')
         t--;
 
     if(t > 0 && input[t] == '>')
     {
         bool in_dquote = false, in_comment = false;
-        int endoff = t - 1;
-        for(int x = input.length() -1 ; x >= 0; --x)
+        auto endoff = t - 1;
+        for(auto x = input.length() -1 ; ; --x)
         {
             string::value_type ch = input[x];
             if(in_comment && ch == '(') {
@@ -88,21 +88,24 @@ void Mailbox::set(const string& input)
                 else
                     m_mailbox.assign(input, x+1, endoff - x);
                 m_label.assign(input, 0 , x);
-                for(int t = m_label.length()-1; t > 0; --t)
-                {
-                    if(m_label[t] == ' ')
-                        m_label.erase(t, 1);
-                    else
-                        break;
+                if (m_label.length() > 0) {
+                    for (auto t1 = m_label.length() - 1; t1 > 0; --t1)
+                    {
+                        if (m_label[t1] == ' ')
+                            m_label.erase(t1, 1);
+                        else
+                            break;
+                    }
                 }
                 return;
             } else if(ch == '"') {
                 in_dquote = !in_dquote;
             }
+            if (x == 0) break;
         }
     } else {
         bool in_dquote = false, in_comment = false;
-        for(int x = input.length() -1 ; x >= 0; --x)
+        for(auto x = input.length() -1 ; ; --x)
         {
             string::value_type ch = input[x];
             string::size_type len = input.length();
@@ -119,6 +122,7 @@ void Mailbox::set(const string& input)
             } else if(ch == '"') {
                 in_dquote = !in_dquote;
             }
+            if (x == 0) break;
         }
     }
 }

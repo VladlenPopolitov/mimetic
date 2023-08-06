@@ -12,7 +12,7 @@
 #include <iomanip>
 #include <stdarg.h>
 
-typedef unsigned int uint;
+// @todo delete typedef unsigned int uint;
 
 #define CUTEE_VERSION "0.4.2"
 
@@ -107,34 +107,34 @@ struct Context
     {}
     // class info
     const string& className() const    { return mClassName; }
-    uint classLineNo() const { return mClassLineNo; }
+    unsigned int classLineNo() const { return mClassLineNo; }
     const string& classFileName() const { return mClassFileName; }
     // filename
     const string& fileName() const { return mFileName; }
     // function info
     const string& functionName() const { return mFunctionName; }
-    uint functionLineNo() const { return mFunctionLineNo; }
+    unsigned int functionLineNo() const { return mFunctionLineNo; }
     // assertion info
     const string& expr() const { return mExpr; }
     const string& exprFileName() const { return mExprFileName; }
-    uint exprLineNo() const { return mExprLineNo; }
+    unsigned int exprLineNo() const { return mExprLineNo; }
 
     void className(const string& s) { mClassName = s; }
     void classFileName(const string& s) { mClassFileName = s; }
-    void classLineNo(uint i) { mClassLineNo = i; }
+    void classLineNo(unsigned int i) { mClassLineNo = i; }
 
     void filename(const string& s) { mFileName = s; }
 
     void functionName(const string& s) { mFunctionName = s; }
-    void functionLineNo(uint i) { mFunctionLineNo = i; }
+    void functionLineNo(unsigned int i) { mFunctionLineNo = i; }
 
     void expr(const string& s) { mExpr = s; }
     void exprFileName(const string& s) { mExprFileName = s; }
-    void exprLineNo(uint i) { mExprLineNo = i; }
+    void exprLineNo(unsigned int i) { mExprLineNo = i; }
 private:
     std::string mClassName, mClassFileName, mFunctionName, 
         mFileName, mExpr, mExprFileName;
-    uint mClassLineNo, mFunctionLineNo, mExprLineNo;
+    unsigned int mClassLineNo, mFunctionLineNo, mExprLineNo;
 };
 
 
@@ -155,8 +155,8 @@ struct TestRunMonitor
     virtual void enterFunction(const CuteeTest&) {}
     virtual void leaveFunction(const CuteeTest&, int ) {}
 
-    virtual void assertion(const CuteeTest&, int, 
-        const std::string& u = "") {}
+    virtual void assertion(const CuteeTest&, long long, 
+        const std::string&   = "" ) {}
 };
 
 // statically store pointers to test classes
@@ -183,15 +183,15 @@ struct CuteeTest: public cutee::Context
     void testRunMonitor(TestRunMonitor *evt) { mEvt = evt; }
     int passed() const  { return mFailed == 0; }
     virtual void run() = 0;
-    virtual uint count() = 0;
+    virtual unsigned int count() = 0;
 protected:
-    void testAssert(int b)
+    void testAssert(long long b)
     {
         if( b == 0 ) // assertion failed 
             mFuncExitCode++; 
         mEvt->assertion(*this, b);
     }
-    void testAssertM(int b, std::stringstream& os)
+    void testAssertM(long long b, std::stringstream& os)
     {
         if( b == 0 ) // assertion failed 
             mFuncExitCode++; 
@@ -199,7 +199,7 @@ protected:
     }
 protected:
     TestRunMonitor *mEvt, mNullMonitor;
-    uint mFuncExitCode, mFailed;
+    unsigned int mFuncExitCode, mFailed;
 };
 
 
@@ -215,11 +215,11 @@ struct StatsMonitor: public TestRunMonitor
     }
     // void enterSuite(const CuteeTest& t)    {}
     // void leaveSuite(const CuteeTest& t, int b) {}
-    void enterClass(const CuteeTest& t) 
+    void enterClass(const CuteeTest& ) 
     {
         mClassCount++;
     }
-    void leaveClass(const CuteeTest& t, int b) 
+    void leaveClass(const CuteeTest& , int b) 
     {
         if(b) 
             mClassPassed++;
@@ -237,7 +237,7 @@ struct StatsMonitor: public TestRunMonitor
         else 
             mFuncFailed++;
     }
-    void assertion(const CuteeTest& t, int b, const std::string& userMsg) 
+    void assertion(const CuteeTest& , long long b, const std::string& ) 
     {
         mAssertCount++;
         if(b) 
@@ -246,14 +246,14 @@ struct StatsMonitor: public TestRunMonitor
             mAssertFailed++;
     }
 protected:
-    uint mAssertPassed, mAssertFailed, mAssertCount, mFuncPassed,
+    unsigned int mAssertPassed, mAssertFailed, mAssertCount, mFuncPassed,
          mFuncFailed, mFuncCount, mClassPassed, mClassFailed, mClassCount;
 };
 
 // keep stats and print results on exit
 struct ConsoleRunMonitor: public StatsMonitor
 {
-    void assertion(const CuteeTest& t, int b, const std::string& userMsg) 
+    void assertion(const CuteeTest& t, long long b, const std::string& userMsg) 
     {
         using namespace std;
         StatsMonitor::assertion(t, b, userMsg);
@@ -317,13 +317,13 @@ struct SkimmerRunMonitor: public StatsMonitor
         cout << t.className() << "::" << t.functionName() << "()";
         cout << "</name>" << endl;
     }
-    void leaveFunction(const CuteeTest& t, int b) 
+    void leaveFunction(const CuteeTest& , int b) 
     {
         using namespace std;
         cout << "<type>" << (b ? "pass" : "fail") << "</type>" << endl;
         cout << "</test>" << endl << endl << endl;
     }
-    void assertion(const CuteeTest& t, int b, const std::string& u = "") 
+    void assertion(const CuteeTest& t, long long b, const std::string& u = "") 
     {
         using namespace std;
         if(b)
@@ -346,10 +346,10 @@ struct SkimmerRunMonitor: public StatsMonitor
 // or command line parameters and run tests
 struct Runner
 {
-    Runner(int argc, char** argv)
+    Runner(int , char** )
     : mEvt(0)
     {
-        if(getenv("SKIMMER_MODE"))
+        if( std::getenv("SKIMMER_MODE") )
             mEvt = new SkimmerRunMonitor;
         else
             mEvt = new ConsoleRunMonitor;

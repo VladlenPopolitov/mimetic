@@ -39,7 +39,7 @@ ifile_iterator::ifile_iterator()
 }
 
 
-ifile_iterator::ifile_iterator(StdFile* pFile)
+ifile_iterator::ifile_iterator(const StdFile* pFile)
 : m_eof(0), m_buf(0), m_ptr(0), m_count(0), m_pFile(pFile), m_read(0)
 {
     setBufsz();

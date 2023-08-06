@@ -26,7 +26,7 @@ void printTabs(int c)
         cout << "    ";
 }
 
-int bca_pkcs7_verify(PKCS7 *p7)
+int bca_pkcs7_verify(PKCS7 * /* *p7 */)
 {
     return ~0;
 }
@@ -48,7 +48,7 @@ int pkcs7MimeHandle(MimeEntity* pMe, int tabcount)
     me_str = ss.str();
     }
 
-    in = BIO_new_mem_buf((void*)me_str.c_str(), me_str.length());
+    in = BIO_new_mem_buf((void*)me_str.c_str(), static_cast<int>(me_str.length()));
     if(in == NULL)
         goto err;
     BIO_set_mem_eof_return(in, 0);

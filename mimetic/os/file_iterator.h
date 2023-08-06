@@ -13,10 +13,16 @@ namespace mimetic
 {
 struct StdFile;
 
-struct ifile_iterator: public std::iterator<std::input_iterator_tag, char>
+struct ifile_iterator
 {
+    typedef std::input_iterator_tag iterator_category;
+     typedef char value_type;
+     typedef std::ptrdiff_t  difference_type;
+     typedef char* pointer;
+     typedef char& reference;
+
     ifile_iterator();    
-    ifile_iterator(StdFile* f);
+    ifile_iterator(const StdFile* f);
     ifile_iterator(const ifile_iterator&);
     ifile_iterator& operator=(const ifile_iterator&);
     ~ifile_iterator();    
@@ -33,10 +39,10 @@ private:
     bool m_eof;
     value_type* m_buf;
     value_type* m_ptr;
-    int m_count;
-    StdFile* m_pFile;
-    unsigned int m_read; //bytes read so far
-    unsigned int m_bufsz;
+    long long m_count;
+    const StdFile* m_pFile;
+    long long m_read; //bytes read so far
+    size_t m_bufsz;
 };
 
 inline
@@ -57,7 +63,6 @@ ifile_iterator& ifile_iterator::operator++() // prefix
         underflow();
     return *this;
 }
-
 
 inline
 ifile_iterator::reference ifile_iterator::operator*()

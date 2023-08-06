@@ -87,19 +87,19 @@ protected:
     std::stack<MimeEntity*> m_entityStack;
 
 protected:
-    void appendPreambleBlock(const char* buf, int sz)
+    void appendPreambleBlock(const char* buf, size_t sz)
     {
         MimeEntity* pMe = m_entityStack.top();
         pMe->body().preamble().append(buf,sz);
     }
     
-    void appendEpilogueBlock(const char* buf, int sz)
+    void appendEpilogueBlock(const char* buf, size_t sz)
     {
         MimeEntity* pMe = m_entityStack.top();
         pMe->body().epilogue().append(buf,sz);
     }
     
-    void appendBodyBlock(const char* buf, int sz)
+    void appendBodyBlock(const char* buf, size_t sz)
     {
         MimeEntity* pMe = m_entityStack.top();
         pMe->body().append(buf, sz);
@@ -155,13 +155,13 @@ protected:
             return m_lastBoundary = NoBoundary;
 
         int level = 0; // multipart nesting level
-        int lineLen = line.length();
+        auto lineLen = line.length();
         BoundaryList::const_iterator bit,eit;
         bit = m_boundaryList.begin(), eit = m_boundaryList.end();
         for(;bit != eit; ++bit, ++level)
         {
             const std::string& b = *bit;
-            int bLen = b.length();
+            auto bLen = b.length();
             if(line.compare(0, bLen, b) == 0)
             { 
                 // not the expected boundary, malformed msg
@@ -205,7 +205,7 @@ protected:
         {
             // allocate and init buffer
             char* tmp = buf;
-            int oldBufsz = bufsz;
+            auto oldBufsz = bufsz;
             while(pos >= bufsz)
                 bufsz = bufsz + alloc_block;
             buf = new char[bufsz+1];    
@@ -234,8 +234,8 @@ protected:
             sValue,
             sIgnoreHeader
         };
-        register int status;
-        int pos;
+        int status;
+        size_t pos;
         char *name, *value;
         size_t nBufSz, vBufSz, nPos, vPos;
         char prev, c = 0;
@@ -445,7 +445,7 @@ protected:
             }
         }
     }
-    inline void onBlock(const char* block, int sz, ParsingElem pe)
+    inline void onBlock(const char* block, size_t sz, ParsingElem pe)
     {
         switch(pe)
         {
@@ -472,7 +472,7 @@ protected:
     virtual void copy_until_boundary(ParsingElem pe)
     {
         size_t pos, lines, eomsz = 0;
-        register char c;
+        char c;
         enum { nlsz = 1 };
         const char *eom = 0;
 
@@ -536,7 +536,7 @@ protected:
                             // trim last newline
                             if (sl_off>=2) 
                             {
-                                int i = sl_off;
+                                auto i = sl_off;
                                 char a = block[--i];
                                 char b = block[--i];
 
@@ -654,7 +654,7 @@ private:
     using base_type::isnl;
     
     typedef TreeNode<char> BoundaryTree;
-    inline void onBlock(Iterator bit, int size, ParsingElem pe)
+    inline void onBlock(Iterator bit, size_t size, ParsingElem pe)
     {
         if(pe == peIgnore)
             return;

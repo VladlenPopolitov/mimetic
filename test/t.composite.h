@@ -18,15 +18,15 @@ class TEST_CLASS( test_composite )
     std::string uppercase(const std::string& s)
     {
         std::string r;
-        for(uint i=0;i<s.length();i++)
-            r+=toupper(s[i]);
+        for(size_t i=0;i<s.length();i++)
+            r+= static_cast<char>(std::toupper(static_cast<unsigned char>(s[i])));
         return r;
     }
     std::string lowercase(const std::string& s)
     {
         std::string r;
-        for(uint i=0;i<s.length();i++)
-            r+=tolower(s[i]);
+        for(size_t i=0;i<s.length();i++)
+            r+=static_cast<char>(std::tolower(static_cast<unsigned char>(s[i])));
         return r;
     }
 public:

@@ -21,7 +21,7 @@ namespace mimetic
 
 class QP
 {
-    friend class test_qp;
+    friend struct test_qp;
     enum { LF = 0xA, CR = 0xD, NL = LF, TAB = 9, SP = 32 };
     enum { default_maxlen = 76 };
     enum { 
@@ -89,7 +89,7 @@ class Encoder: public buffered_codec, public chainable_codec<Encoder>
     template<typename OutIt>
     void encodeChar(char_type c, OutIt& out)
     {
-        int cnt = m_cbuf.count();
+        auto cnt = m_cbuf.count();
         switch(sTb[c])
         {
         case printable:
@@ -243,7 +243,7 @@ class Decoder: public buffered_codec, public chainable_codec<Encoder>
         sNewline,
         sOtherChar
     };
-    size_t m_pos, m_maxlen;
+    size_t m_maxlen;
 
 
     int m_state, m_nl;
@@ -342,8 +342,8 @@ class Decoder: public buffered_codec, public chainable_codec<Encoder>
                     char_type oc, last;
                     assert(m_prev.length());
                     last = m_prev[m_prev.length()-1];
-                    oc = hex_to_int(last) << 4 | 
-                        hex_to_int(c) ;
+                    oc = static_cast<char_type>( hex_to_int(last) << 4 | 
+                        hex_to_int(c) ) ;
                     write(oc,out);
                     m_prev.clear();
                 }
@@ -355,7 +355,7 @@ class Decoder: public buffered_codec, public chainable_codec<Encoder>
                     m_nl = c;
                     return;
                 } else {
-                    int len = m_prev.length();
+                    auto len = m_prev.length();
                     if(!len || m_prev[0] != '=')
                         hardLineBrk(out);
                     m_prev.clear();
@@ -463,7 +463,7 @@ public:
               malformed, just print '=' and ignore trailing
               blanks (rfc2045 6.7 (3) )
         */
-        int len = m_prev.length();
+        auto len = m_prev.length();
         if(len)
         {
             if(len == 1)

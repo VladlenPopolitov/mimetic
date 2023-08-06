@@ -17,8 +17,8 @@ struct circular_buffer
 {
     typedef circular_buffer<T> self_type;
     typedef T value_type;
-    typedef unsigned int size_type;
-    circular_buffer(unsigned int sz = 4)
+    typedef size_t size_type;
+    circular_buffer(size_t sz = 4)
     : m_sz(sz), m_count(0), m_first(0), m_last(0)
     {
         m_pItem = new value_type[sz];
@@ -52,23 +52,23 @@ struct circular_buffer
     inline void push_back(const value_type& c)
     {
         m_pItem[m_last] = c;    
-        m_last = ++m_last % m_sz;
+        m_last = (m_last + 1) % m_sz;
         m_count += (m_count == m_sz ? 0 : 1);
     }
     inline void push_front(const value_type& c)
     {
-        m_first = (--m_first + m_sz) % m_sz;        
+        m_first = (m_first - 1 + m_sz) % m_sz;        
         m_pItem[m_first] = c;    
         m_count += (m_count == m_sz ? 0 : 1);
     }
     inline void pop_front()
     {
-        m_first = ++m_first % m_sz;        
+        m_first = (m_first + 1) % m_sz;        
         m_count--;
     }
     inline void pop_back()
     {
-        m_last = (--m_last + m_sz) % m_sz;
+        m_last = (m_last - 1 + m_sz) % m_sz;
         m_count--;
     }
     inline const value_type& front() const
@@ -102,9 +102,9 @@ struct circular_buffer
                 return false;
         return true;
     }
-    inline value_type& operator[](unsigned int i) const
+    inline value_type& operator[](size_t i) const
     {
-        unsigned int idx = (m_first + i) % m_sz;
+        size_t idx = (m_first + i) % m_sz;
         return m_pItem[idx];
     }
     inline bool empty() const
@@ -129,7 +129,7 @@ struct circular_buffer
     }
 private:
     size_type m_sz, m_count;
-    int m_first, m_last;
+    long long m_first, m_last;
     value_type* m_pItem;
 };
 

@@ -22,6 +22,7 @@ namespace mimetic
 struct StdFile: public FileOp
 {
     typedef ifile_iterator iterator;
+    typedef ifile_iterator const_iterator;
     StdFile();
 #ifdef O_BINARY
     StdFile(const std::string&, int mode = (O_RDONLY | O_BINARY));
@@ -36,10 +37,12 @@ struct StdFile: public FileOp
     void open(const std::string&, int mode = O_RDONLY);
 #endif
     void close();
-    uint read(char*, int);
+    size_t read(char*, size_t) const;
 
     iterator begin();
     iterator end();
+    const_iterator begin() const;
+    const_iterator end() const;
 protected:
     void open(int flags);
     bool stat();

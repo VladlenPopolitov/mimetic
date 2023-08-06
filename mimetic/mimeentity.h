@@ -39,7 +39,7 @@ class MimeEntity
     friend class Body;
     friend class MimeEntityLoader;
     typedef std::list<std::string> BoundaryList;
-    typedef unsigned long int size_type;
+    typedef size_t size_type;
 public:
     /**
      *  Blank MIME entity

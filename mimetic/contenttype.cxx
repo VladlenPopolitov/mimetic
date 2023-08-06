@@ -4,8 +4,8 @@
 
     $Id: contenttype.cxx,v 1.3 2008-10-07 11:06:25 tat Exp $
  ***************************************************************************/
-#include <cstdlib>
-#include <ctime>
+#include <random>
+#include <climits>
 #include <sstream>
 #include <iomanip>
 #include <cassert>
@@ -15,7 +15,6 @@
 
 namespace mimetic
 {
-using namespace std;
 
 const char ContentType::label[] = "Content-Type";
 
@@ -31,12 +30,15 @@ ContentType::Boundary::Boundary()
                 "abcdefghijklmnopqrstuvwxyz"
                 "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
                 "-_."; // "=+,()/"
-        stringstream ss;
-        srand(time(0));
+        std::stringstream ss;
+        // init C++11 <random> library
+        // @todo delete srand(static_cast<unsigned int>(time(0)));
+        std::uniform_int_distribution<unsigned int> uniform(0, UINT_MAX);
+        std::default_random_engine randomNumberEngine;
         short tbSize = sizeof(tb)-1;
-        for(uint i=0; i < 48; ++i)
+        for(unsigned int i=0; i < 48; ++i)
         {
-            unsigned int r = rand();
+            unsigned int r = uniform(randomNumberEngine); // @todo delete  rand();
             ss << tb[r % tbSize];
         }
         ms_common_boundary = "----" + ss.str();
@@ -154,7 +156,7 @@ void ContentType::set(const string& val)
     set(stype, ssubtype);
 
     // parse field params
-    string params(val, min(val.length(), ct.length() + 1));
+    string params(val, std::min(val.length(), ct.length() + 1));
     if(!params.length())
         return;
     string paramValue;

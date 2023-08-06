@@ -48,7 +48,7 @@ private:
     string remove_external_blanks(const string&) const;
 private:
     command_line m_cl;
-    bool m_ignore_childs, m_pcre;
+    bool m_pcre;
     int m_match_mode;
 };
 

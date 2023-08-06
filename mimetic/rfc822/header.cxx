@@ -62,11 +62,11 @@ Field& Rfc822Header::field(const std::string& name)
         return *it;
     else {
         Field f;
-        iterator it;
-        it = insert(end(), f);
-        it->name(name);
-        it->m_pValue = new StringFieldValue;
-        return *it;
+        iterator it1;
+        it1 = insert(end(), f);
+        it1->name(name);
+        it1->m_pValue = new StringFieldValue;
+        return *it1;
     }
 }
 

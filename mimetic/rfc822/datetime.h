@@ -25,10 +25,10 @@ struct DateTime: public FieldValue
         bool operator==(const std::string&);
         bool operator==(int iDayOfWeek);
         std::string name(bool longName = false) const;
-        short ordinal() const;
+        int ordinal() const;
     private:
         static const char *ms_label[][2];
-        short m_iDayOfWeek;
+        int m_iDayOfWeek;
     };
     struct Month {
         enum MonthName { mnShort = 0, mnLong = 1 };
@@ -37,10 +37,10 @@ struct DateTime: public FieldValue
         bool operator==(const std::string& ) const;
         bool operator==(int iMonth) const;
         std::string name(bool longName = false) const;
-        short ordinal() const;
+        int ordinal() const;
     private:
         static const char *ms_label[][2];
-        short m_iMonth;
+        int m_iMonth;
     };
     struct Zone {
         Zone(int iZone);
@@ -48,11 +48,11 @@ struct DateTime: public FieldValue
         bool operator==(const std::string&);
         bool operator==(int iZone);
         std::string name() const;
-        short ordinal() const;
+        int ordinal() const;
     private:
         static int ms_offset[];
         static const char *ms_label[];
-        short m_iZone, m_iZoneIdx;
+        int m_iZone, m_iZoneIdx;
         std::string m_sZone;
     };
 
@@ -89,12 +89,12 @@ struct DateTime: public FieldValue
     DateTime(const char*);
     DateTime(const std::string&);
     DayOfWeek dayOfWeek() const;
-    short day() const;
+    int day() const;
     Month month() const;
-    short year() const;
-    short hour() const;
-    short minute() const;
-    short second() const;
+    int year() const;
+    int hour() const;
+    int minute() const;
+    int second() const;
     Zone zone() const;
     std::string str() const;
     friend std::ostream& operator<<(std::ostream&, const DateTime&);

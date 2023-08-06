@@ -30,7 +30,7 @@ namespace mimetic
 
 
 StdFile::StdFile()
-: m_stated(false), m_fd(-1), m_st{}
+: m_stated(false), m_st{}, m_fd(-1)
 {
 }
 
@@ -70,13 +70,24 @@ StdFile::iterator StdFile::end()
     return iterator();
 }
 
-uint StdFile::read(char* buf, int bufsz)
+StdFile::const_iterator StdFile::begin() const
+{
+    return iterator(this);
+}
+
+StdFile::const_iterator StdFile::end() const
+{
+    return iterator();
+}
+
+
+size_t StdFile::read(char* buf, size_t bufsz) const
 {
     int r = 0;
     if (m_fd >= 0) {
         do
         {
-            r = ::read(m_fd, buf, bufsz);
+            r = ::read(m_fd, buf, static_cast<unsigned int>( bufsz ));
         } while (r < 0 && errno == EINTR);
     }
     return r;

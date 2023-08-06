@@ -41,7 +41,7 @@ namespace mimetic
  */
 struct Field
 {
-    typedef mimetic::istring istring;
+    // @todo delete typedef mimetic::istring istring;
     static const Field null;
     Field();
     Field(const std::string&);

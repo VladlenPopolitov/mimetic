@@ -90,14 +90,14 @@ void printMimeStructure(MimeEntity* pMe, int tabcount = 0)
                 const ContentDisposition cd = h.contentDisposition();
                 cout << "disposition: " << cd.type() << endl;
                 ContentDisposition::ParamList::const_iterator 
-                    bit, eit;
-                bit = cd.paramList().begin();
-                eit = cd.paramList().end();
-                for(; bit != eit; ++bit)
+                    bit1, eit1;
+                bit1 = cd.paramList().begin();
+                eit1 = cd.paramList().end();
+                for(; bit1 != eit1; ++bit1)
                 {
                     printTabs(tabcount);
-                    cout << "param: " << bit->name() << " = " 
-                         << bit->value() << endl;
+                    cout << "param: " << bit1->name() << " = " 
+                         << bit1->value() << endl;
                 }
             }
             Header::iterator hbit, heit;
@@ -141,9 +141,20 @@ int main(int argc, char** argv)
     die_if(argc < 2, "mbox filename required");
     die_if(!File::exists(argv[1]), 
         string("Unable to access file: ") + argv[1]);
-
+#if HAS_MMAP == 1
     File f(argv[1]);
     File::iterator bit = f.begin(), eit = f.end(), it;
+#else 
+    File inFile(argv[1]);
+    string f{};
+    enum { page_sz = 4096 };
+    char page[page_sz];
+    size_t len;
+    while ((len = inFile.read(page, page_sz)) > 0)
+        f.append(page, len);
+    string::iterator bit = f.begin(), eit = f.end(), it;
+#endif
+
     int count = 0;
     do
     {

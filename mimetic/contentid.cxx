@@ -18,8 +18,8 @@ ContentId::ContentId()
     std::string host = gethostname();
     if(!host.length())
         host = "unknown";
-  m_cid = "c" + utils::int2str(time(0)) + "." + utils::int2str(getpid()) +
-        "." + utils::int2str(++ms_sequence_number) + "@" + host;
+  m_cid = "c" + utils::time_t2str(time(0)) + "." + utils::time_t2str(getpid()) +
+        "." + utils::time_t2str(++ms_sequence_number) + "@" + host;
 }
 
 ContentId::ContentId(const char* cstr)
